@@ -1,1 +1,11 @@
 # RestaurantSpotter
+
+Consumer Key  G54N5mU0q2DJm8lq6yE_zw
+Consumer Secret HToKcQe54j2r2MXdkDNgTIUgxLw
+Token ZRy-YcZwQyaFC6syQtSZ_IXycnBfbYla
+Token Secret  A2CRaUQ-rpHufi9i5f8unNWauQc
+
+App ID
+MGC4yEUYjDCVWJY5hXLCtQ
+App Secret
+yXmqoYzrT6VC7vAXMC5Q9WSnopX48bByzwkbX40DOW55rPUAQNIjEmK5TJtFMKUS

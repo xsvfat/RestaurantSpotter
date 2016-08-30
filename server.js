@@ -1,14 +1,27 @@
 var express = require('express');
-//var db = require('./app/config');
+var db = require('./app/config');
 var app = express();
+var request = require('request');
+var User = require('./app/user');
+var Yelp = require('./yelp')
+var bodyParser = require('body-parser');
+var Promise = require('bluebird');
 
+var conv = {
+  '1 mile': 1600,
+  '3 miles': 4850,
+  '5 miles': 8050,
+  '10 miles': 16500
+}
  //app.set('views', __dirname + '/views');
+
 // app.set('view engine', 'ejs');
 // app.use(partials());
 // // Parse JSON (uniform resource locators)
-// app.use(bodyParser.json());
-// // Parse forms (signup/login)
-// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res) {
@@ -18,19 +31,24 @@ app.get('/', function(req, res) {
 app.post('/signup', function(req, res) {
   var location = req.body.location;
   var email = req.body.email;
-
+  var radius = req.body.radius
+  console.log(req.body, 'this is req.body')
   User.findOne({ email: email })
     .exec(function(err, user) {
       if (!user) {
         var newUser = new User({
           email: email,
-          location: location
+          location: location,
+          radius: conv[radius],
+          restaurants: {}
         });
-        newUser.save(function(err, newUser) {
-          if (err) {
-            res.status(500).send(err);
-          }
-          util.createSession(req, res, newUser);
+      newUser.save(function(err, newUser) {
+        if (err) {
+          res.status(500).send(err);
+        }
+        console.log(newUser,"this is my new user!!")
+        //Consider redirecting them or rendering a confirmation message
+        //util.createSession(req, res, newUser);
         });
       } else {
         console.log('Account already exists');

@@ -17,11 +17,15 @@
   },
   "homepage": "https://github.com/xsvfat/RestaurantSpotter#readme",
   "dependencies": {
+    "bluebird": "^3.4.3",
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "jquery": "^3.1.0",
     "mongodb": "^2.2.9",
     "mongoose": "^4.5.10",
     "nodemon": "^1.10.2",
-    "underscore": "^1.8.3"
+    "request": "^2.74.0",
+    "underscore": "^1.8.3",
+    "yelp": "^1.0.1"
   }
 }
