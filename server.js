@@ -50,6 +50,9 @@ app.post('/signup', function(req, res) {
         console.log(newUser,"this is my new user!!")
         //Consider redirecting them or rendering a confirmation message
         //util.createSession(req, res, newUser);
+        setTimeout(function(){
+          util.sendEmail(newUser) },5000);
+
         });
       } else {
         console.log('Account already exists');
@@ -57,7 +60,6 @@ app.post('/signup', function(req, res) {
         //need to add code to show an error message saying email already entered
       }
     });
-    setTimeout(util.sendEmail,5000);
 });
 
 
