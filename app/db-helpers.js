@@ -5,7 +5,7 @@ var Yelp = require('../yelp');
 var _ = require('underscore');
 
 
-exports.addNew = function(){
+exports.checkForNewRestaurants = function(){
   User.find({}).exec(function(err, users){
     users.forEach(function(user){
       Yelp.search({term:'hot and new',
@@ -14,7 +14,7 @@ exports.addNew = function(){
       })
       .then(function(data){
         data.businesses.forEach(function(business){
-          if (user.restaurants[business]){
+          if (user.restaurants[business] === undefined){
             user.restaurants[business] = false;
           }
         })
@@ -49,17 +49,13 @@ exports.findShortList = function(callback){
 
 exports.markTrueAndSave = function(callback){
   exports.findShortList(function(user){
-    User.checkNewRestaurants.call(user,callback)
+    User.getRestaurantsToEmail.call(user,callback)
   })
 }
 
 
 
 exports.sendEmail = function(user){
-  // exports.markTrueAndSave(function(email,res){
-  //   console.log(email,res,"will this console log correctly?");
-  // })
-  console.log(user, 'what is this here?')
-  //user.restaurants['Newa'] = true;
+
   User.markSent.call(user,"Newa")
 }

@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Promise = require('bluebird');
 var Yelp = require('../yelp');
 var _ = require('underscore')
+var Emailer = require('../sendgrid')
 //var util = require('./db-helpers');
 
 
@@ -14,10 +15,9 @@ var userSchema = mongoose.Schema({
 
 var User = mongoose.model('User', userSchema);
 
-User.checkNewRestaurants = function(cb){
+User.getRestaurantsToEmail = function(cb){
   var results = [];
   var email = this.email;
-  console.log(this.restaurants,"gets called?")
   for (var k in this.restaurants){
     if (!this.restaurants[k]){
       results.push(k);
@@ -51,10 +51,13 @@ userSchema.pre('save', function(next){
               radius_filter: this.radius
   })
     .then(function(data){
+      // var nameList = [];
       data.businesses.forEach(function(business){
-        console.log('this should be run two sets')
         context.restaurants[business.name] =  false;
+        // nameList.push(business.name);
       })
+      //send an email on user creation
+      // Emailer.send(context.email, nameList);
       next();
      })
     .catch(function(err){

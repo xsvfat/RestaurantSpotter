@@ -7,6 +7,7 @@ var Yelp = require('./yelp')
 var bodyParser = require('body-parser');
 var Promise = require('bluebird');
 var util = require('./app/db-helpers');
+var Emailer = require('./sendgrid')
 
 var conv = {
   '1 mile': 1600,
@@ -47,17 +48,17 @@ app.post('/signup', function(req, res) {
         if (err) {
           res.status(500).send(err);
         }
-        console.log(newUser,"this is my new user!!")
-        //Consider redirecting them or rendering a confirmation message
-        //util.createSession(req, res, newUser);
-        setTimeout(function(){
-          util.sendEmail(newUser) },5000);
+        // User.getRestaurantsToEmail.call(newUser, function(em,res){
+        //   console.log('did I mess up over here?')
+        //   setTimeout(function(){
+        //     console.log(em,message,"here---");
+        //       Emailer.send(em, message);          
+        //      },3000);
+        // })  
 
         });
       } else {
-        console.log('Account already exists');
-        //res.redirect('/signup');
-        //need to add code to show an error message saying email already entered
+        //Insert a warning if unable to save
       }
     });
 });
