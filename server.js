@@ -6,6 +6,7 @@ var User = require('./app/user');
 var Yelp = require('./yelp')
 var bodyParser = require('body-parser');
 var Promise = require('bluebird');
+var util = require('./app/db-helpers');
 
 var conv = {
   '1 mile': 1600,
@@ -56,6 +57,7 @@ app.post('/signup', function(req, res) {
         //need to add code to show an error message saying email already entered
       }
     });
+    setTimeout(util.sendEmail,5000);
 });
 
 

@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
 var Yelp = require('../yelp');
-var util = require('./db-helpers');
+//var util = require('./db-helpers');
 
 
 var userSchema = mongoose.Schema({
