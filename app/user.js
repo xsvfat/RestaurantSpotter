@@ -1,10 +1,9 @@
-var mongoose = require('mongoose');
 var Promise = require('bluebird');
+var db = require('./config');
+var mongoose = require('mongoose');
 var Yelp = require('../yelp');
 var _ = require('underscore')
 var Emailer = require('../sendgrid')
-//var util = require('./db-helpers');
-
 
 var userSchema = mongoose.Schema({
   email: { type: String, required: true, index: { unique: true } },
@@ -16,6 +15,7 @@ var userSchema = mongoose.Schema({
 var User = mongoose.model('User', userSchema);
 
 User.getRestaurantsToEmail = function(cb){
+  console.log("test?",cb)
   var results = [];
   var email = this.email;
   for (var k in this.restaurants){
@@ -23,26 +23,14 @@ User.getRestaurantsToEmail = function(cb){
       results.push(k);
     }
   }
-  console.log(results)
-  cb(email,results)
-}
-
-
-User.markSent = function(restaurant,cb){
-  this.restaurants[restaurant] = true;
-  this.markModified('restaurants');
-  this.save(function(err, user,n) {
-    if (err) { 
-      console.log('errr',err)
-    } else {
-      cb(user)
-    }
-  })
+  console.log(results,"this results")
+  if (results.length > 0){
+      cb(email,results)
+  }
 }
 
 userSchema.pre('save', function(next){
   if (_.isEmpty(this.restaurants) === false){
-    //only run this function on creation
     next();
   } else {
   var context = this;
@@ -51,13 +39,9 @@ userSchema.pre('save', function(next){
               radius_filter: this.radius
   })
     .then(function(data){
-      // var nameList = [];
       data.businesses.forEach(function(business){
         context.restaurants[business.name] =  false;
-        // nameList.push(business.name);
       })
-      //send an email on user creation
-      // Emailer.send(context.email, nameList);
       next();
      })
     .catch(function(err){

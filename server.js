@@ -6,7 +6,7 @@ var User = require('./app/user');
 var Yelp = require('./yelp')
 var bodyParser = require('body-parser');
 var Promise = require('bluebird');
-var util = require('./app/db-helpers');
+//var util = require('./app/db-helpers');
 var Emailer = require('./sendgrid')
 
 var conv = {
@@ -48,14 +48,7 @@ app.post('/signup', function(req, res) {
         if (err) {
           res.status(500).send(err);
         }
-        // User.getRestaurantsToEmail.call(newUser, function(em,res){
-        //   console.log('did I mess up over here?')
-        //   setTimeout(function(){
-        //     console.log(em,message,"here---");
-        //       Emailer.send(em, message);          
-        //      },3000);
-        // })  
-
+ 
         });
       } else {
         //Insert a warning if unable to save

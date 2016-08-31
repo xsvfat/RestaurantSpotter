@@ -1,8 +1,11 @@
 var Promise = require('bluebird');
-var mongoose = require('mongoose');
+//var mongoose = require('mongoose');
+var db = require('./config');
+Promise.promisifyAll(require("mongoose"));
 var User = require('./user');
 var Yelp = require('../yelp');
 var _ = require('underscore');
+var Emailer = require('../sendgrid')
 
 
 exports.checkForNewRestaurants = function(){
@@ -32,14 +35,20 @@ exports.checkForNewRestaurants = function(){
   });
 }
 
-exports.getData = function(callback){
+var getData = function(callback){
+  console.log("1",callback)
+  console.log(User.find({}),"test")
   User.find({}).exec(function(err,users){
-      callback(users)
+     if (err){
+      console.log("error is" , err)
+     } else {
+       callback(users);
+     }
   })
 }
 
-exports.findShortList = function(callback){
-  exports.getData(function(users){
+var findShortList = function(callback){
+  getData(function(users){
     users.forEach(function(user){
       callback(user);
       })
@@ -47,15 +56,31 @@ exports.findShortList = function(callback){
 
 }
 
-exports.markTrueAndSave = function(callback){
-  exports.findShortList(function(user){
+var sendEmail = function(callback){
+  findShortList(function(user){
     User.getRestaurantsToEmail.call(user,callback)
   })
 }
 
+exports.sendEmails = function(){
+  sendEmail(function(email,resultsArray){
+    Emailer.send(email,resultsArray);
+  })
+}
 
-
-exports.sendEmail = function(user){
-
-  User.markSent.call(user,"Newa")
+exports.markSent = function(email,restaurantArray){
+  User.findOne({email:email}).exec(function(err,user){
+    restaurantArray.forEach(function(restaurant){
+      user.restaurants[restaurant] = true;
+    })
+      user.markModified('restaurants')
+      user.save(function(err, user,n) {
+      if (err) { 
+        console.log('errr',err)
+      } else {
+        //cb(user)
+        console.log('success')
+      }
+    })
+  })
 }

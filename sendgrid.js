@@ -5,13 +5,14 @@ var from_email = new helper.Email("xsvfat@gmail.com")
 var subject = "You've got a new restaurant alert!"
 var SENDGRID_API_KEY = "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";
 var sg = require('sendgrid')(SENDGRID_API_KEY);
-
-
+var User = require('./app/user');
+var util = require('./app/db-helpers');
 
 
 exports.send = function(toEmail,contentArray){
+  console.log("5",toEmail)
   var cont = contentArray.reduce(function(total,item){
-    total += (item + " \n ");
+    total += (" \n " + item);
     return total;
   },"Your New Restaurants are: '\n' ")
   console.log(cont,"this is the emails contents")
@@ -29,6 +30,9 @@ exports.send = function(toEmail,contentArray){
     console.log(response.statusCode, "Does this get run?")
     console.log(response.body)
     console.log(response.headers)
+    if (response.statusCode === 202 ){
+      util.markSent(toEmail,contentArray)
+    }
   })
 
 }
