@@ -3,6 +3,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Sean's MVP Project</title>
   <meta name="description" content="The HTML5 Herald">
@@ -17,19 +19,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
   <![endif]-->
 </head>
-<h1>Restaurant Spotter</h1>
-<body>
 
+<body>
     <header class="body">
     </header>
 
-    <section class="body">
-      <form action="/signup" method="post">
+    <section class="main-content">
+      <form class= "form-labels-on-top" action="/signup" method="post">
+        <div class="form-title-row">
+            <h1>Restaurant Spotter</h1>
+        </div>
               
-          <label>Address</label>
-          <input name="location" class="form-control" placeholder="Home Address">
+          <div class="form-row">    
+            <label>Address</label>
+            <input name="location" class="form-control" placeholder="Home Address">
+          </div>
 
-
+          <div class="form-row">
             <label for="radius">Desired Search Radius:</label>
             <select class="form-control" name="radius">
               <option>1 mile</option>
@@ -37,16 +43,18 @@
               <option>5 miles</option>
               <option>10 miles</option>
             </select>
+          </div>
 
-                  
+          
+          <div class="form-row">  
           <label>Email</label>
           <input name="email" class="form-control" type="email" placeholder="Email Address">
+           </div>
                   
-<!--           <label>Message</label>
-          <textarea name="message" placeholder="Type Here"></textarea> -->
-                  
-          <input id="submit" name="submit" type="submit" value="Submit">
-              
+
+           <div class="form-row">    
+            <input id="submit" name="submit" type="submit" value="Submit">
+          </div>
       </form>
     </section>
 

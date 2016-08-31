@@ -6,7 +6,7 @@ var User = require('./app/user');
 var Yelp = require('./yelp')
 var bodyParser = require('body-parser');
 var Promise = require('bluebird');
-//var util = require('./app/db-helpers');
+var util = require('./app/db-helpers');
 var Emailer = require('./sendgrid')
 
 var conv = {
@@ -48,7 +48,7 @@ app.post('/signup', function(req, res) {
         if (err) {
           res.status(500).send(err);
         }
- 
+          util.sendEmails();
         });
       } else {
         //Insert a warning if unable to save
@@ -59,6 +59,6 @@ app.post('/signup', function(req, res) {
 
 var port = process.env.PORT || 4568;
 
-app.listen(port);
+app.listen(port,"10.6.23.220");
 
 console.log('Server now listening on port ' + port);

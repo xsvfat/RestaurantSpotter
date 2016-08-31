@@ -20,6 +20,7 @@ exports.checkForNewRestaurants = function(){
           if (user.restaurants[business] === undefined){
             user.restaurants[business] = false;
           }
+          console.log('should run twice?')
         })
       })
       .catch(function(err){
@@ -36,8 +37,6 @@ exports.checkForNewRestaurants = function(){
 }
 
 var getData = function(callback){
-  console.log("1",callback)
-  console.log(User.find({}),"test")
   User.find({}).exec(function(err,users){
      if (err){
       console.log("error is" , err)
@@ -78,7 +77,6 @@ exports.markSent = function(email,restaurantArray){
       if (err) { 
         console.log('errr',err)
       } else {
-        //cb(user)
         console.log('success')
       }
     })
